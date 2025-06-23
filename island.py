@@ -58,7 +58,7 @@ class Island:
 
 #Here is a method that allows the user to move around the islands:
 
-    def voyage(self, direction):
+    def move(self, direction):
         if direction in self.linked_islands:
             return self.linked_islands[direction]
         else:
@@ -77,9 +77,24 @@ class Island:
 
 #My 'room' subclass Place
 
-class Place(Island):
+class Location(Island):
     def __init__(self, island_name):
         super().__init__(island_name)
         self.description = None
         self.character = None
-        self.linked_places = {}
+        self.linked_locations = {}
+
+    def link_island(self, location_to_link):
+        self.linked_locations = location_to_link
+
+    def get_details(self):
+        print("You are in the " + self.name + ".")
+        for locations in self.linked_locations:
+            location = self.linked_locations
+            print("There is a " + location.get_name() + "on this island")
+
+    def move(self, location):
+        if location in self.linked_locations:
+            return self.linked_locations[location]
+        else:
+            print("That is not a valid location")
