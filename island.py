@@ -4,7 +4,6 @@ class Island:
         self.name = island_name
         self.description = None
         self.linked_islands = {}
-        self.character = None
         self.item = None
 
 #Here is a method to set the description of the island:
@@ -59,7 +58,7 @@ class Island:
 
 #Here is a method that allows the user to move around the islands:
 
-    def move(self, direction):
+    def voyage(self, direction):
         if direction in self.linked_islands:
             return self.linked_islands[direction]
         else:
@@ -75,3 +74,12 @@ class Island:
 
     def get_item(self):
         return self.item
+
+#My 'room' subclass Place
+
+class Place(Island):
+    def __init__(self, island_name):
+        super().__init__(island_name)
+        self.description = None
+        self.character = None
+        self.linked_places = {}

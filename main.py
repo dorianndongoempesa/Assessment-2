@@ -1,5 +1,6 @@
 from island import Island
 from character import Enemy, Character, Friend
+from item import Item
 
 #Naming the islands and describing them
 
@@ -61,9 +62,10 @@ josephine.set_conversation("Gidday")
 gecko.set_character(josephine)
 
 #Setting items to different islands
+
 torch = Item("torch")
 torch.set_description("A light for the end of the tunnel")
-dungeon.set_item(torch)
+gecko.set_item(torch)
 bag = []
 
 current_island = fuschia
@@ -76,25 +78,32 @@ while dead == False:
         inhabitant.describe()
     command = input("> ")
     if command in ["north", "south", "east", "west"]:
-            current_island = current_island.move(command)
+            current_island = current_island.travel(command)
     elif command == "talk":
         #Talk to the inhabitant - check whether there is one!
         if inhabitant is not None:
             inhabitant.talk()
     elif command == "fight":
+        #Check whether the character is an enemy using isinstance()
         if inhabitant is not None and isinstance(inhabitant, Enemy):
             #Fight with the inhabitant, if there is one
             print("What will you fight with?")
             fight_with = input()
-            if inhabitant.fight(fight_with) == True:
-                #What happens if you win?
-                print("Bravo, hero you won the fight!")
-                current_island.set_character(None)
+            if fight_with in bag:
+                if inhabitant.fight(fight_with) == True:
+                    #What happens if you win?
+                    print("Bravo, hero you won the fight!")
+                    current_island.set_character(None)
+                    if Enemy.enemies_to_defeat == 0:
+                        print("Congratulations, you have survived another adventure!")
+                        dead = True
+                else:
+                    #What happens if you lose?
+                    print("Scurry home, you lost the fight.")
+                    print("That's the end of the game")
+                    dead = True
             else:
-                #What happens if you lose?
-                print("Scurry home, you lost the fight.")
-                print("That's the end of the game")
-                dead = True
+                print("You dont have a " + fight_with)
         else:
             print("There is no one here to fight with.")
     elif command == "pat":
@@ -102,13 +111,13 @@ while dead == False:
             if isinstance(inhabitant, Enemy):
                 print("I wouldn't do that if I were you...")
             else:
-                inhabitant.pat()
+                    inhabitant.pat()
         else:
             print("There is no one here to pat :(")
     elif command == "take":
-        if item is not None:
-            print("You put the " + item.get_name() + " in your bag")
-            bag.append(item.getname())
-            current_cave.set_item(None)
+        if Item is not None:
+            print("You put the " + current_island.get_name() + " in your bag")
+            bag.append(current_island.getname())
+            current_island.set_item(None)
         else:
-            
+            print("There is no item to take in " + current_island)
