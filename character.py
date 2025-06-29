@@ -1,3 +1,5 @@
+import random as r
+
 class Character:
     def __init__(self, char_name, char_description):
         self.name = char_name
@@ -25,7 +27,7 @@ class Character:
 
 #Fight with this character
 
-    def fight(self, combat_item):
+    def fight(self):
         print(self.name + " doesn't want to fight you")
         return True
 
@@ -33,29 +35,75 @@ class Enemy(Character):
     enemies_to_defeat = 0
     def __init__(self, char_name, char_description):
         super().__init__(char_name, char_description)
-        self.weakness = None
         Enemy.enemies_to_defeat += 1
+        self.player_damage = 0
+        self.player_health = 100
 
-#Set weaknesses for enemy
-    
-    def set_weakness(self, weakness):
-        self.weakness = weakness
+#Set the health of the enemy
+    def set_health(self, health):
+        self.health = health
 
-#Get weaknesses for enemy
+#Set the type of enemy
+    def set_type(self, type):
+        self.type = type
 
-    def get_weakness(self):
-        return self.weakness
-        
 #Fight with this character
 
-    def fight(self, combat_item):
-        if combat_item == self.weakness:
-            print("You fend " + self.name + " off with the " + combat_item)
+    def fight(self, attack):
+        while self.health > 0:
+            if attack == "light" and self.type == "light":
+                self.player_damage = r.randint(2, 15)
+                print("You dealt " + self.player_damage + " to " + self.name)
+                self.health -= self.player_damage
+                enemy_damage = r.randint(1, 5)
+                print(self.name + " dealt " + enemy_damage + " to you")
+            elif attack == "medium" and self.type == "light":
+                random = r.random(0.0, 1.0)
+                if random > 0.25:
+                    self.player_damage = r.randint(16, 30)
+                    print("You dealt " + self.player_damage + " to " + self.name)
+                    self.health -= self.player_damage
+                    enemy_damage = r.randint(1, 5)
+                    print(self.name + " dealt " + enemy_damage + " to you")
+                else:
+                    print("You missed your medium attack!")
+            elif attack == "heavy" and self.type == "light":
+                random = r.random(0.0, 1.0)
+                if random > 0.5:
+                    self.player_damage = r.randint(31, 50)
+                    print("You dealt " + self.player_damage + " to " + self.name)
+                    self.health -= self.player_damage
+                    enemy_damage = r.randint(1, 5)
+                    print(self.name + " dealt " + enemy_damage + " to you")
+                else:
+                    print("You missed your heavy attack!")
+            if attack == "light" and self.type == "medium":
+                self.player_damage = r.randint(1, 10)
+                print("You dealt " + self.player_damage + " to " + self.name)
+                self.health -= self.player_damage
+                enemy_damage = r.randint(5, 10)
+                print(self.name + " dealt " + enemy_damage + " to you")
+            elif attack == "medium" and self.type == "medium":
+                random = r.random(0.0, 1.0)
+                if random > (1/3):
+                    self.player_damage = r.randint(11, 20)
+                    print("You dealt " + self.player_damage + " to " + self.name)
+                    self.health -= self.player_damage
+                    enemy_damage = r.randint(5, 10)
+                    print(self.name + " dealt " + enemy_damage + " to you")
+            elif attack == "heavy" and self.type == "medium":
+                random = r.random(0.0, 1.0)
+                if random > (2/3):
+                    self.player_damage = r.randint(21, 30)
+                    print("You dealt " + self.player_damage + " to " + self.name)
+                    self.health -= self.player_damage
+                    enemy_damage = r.randint(1, 5)
+                    print(self.name + " dealt " + enemy_damage + " to you")
+        if self.health <= 0:
             Enemy.enemies_to_defeat -= 1
-            return True
-        else:
-            print(self.name + " swallows you, little wimp")
-            return False
+            return True, self.player_health
+        elif self.health > 0 and self.player_health <= 0:
+            return False, self.player_health
 
 #Steal from this Character
 

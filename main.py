@@ -57,10 +57,6 @@ harry.set_conversation("Hangry... Hanggrry")
 harry.set_weakness("vegemite")
 fuschia.set_character(harry)
 
-josephine = Friend("Josephine", "A friendly bat")
-josephine.set_conversation("Gidday")
-gecko.set_character(josephine)
-
 #Setting items to different islands
 
 torch = Item("torch")
@@ -87,23 +83,21 @@ while dead == False:
         #Check whether the character is an enemy using isinstance()
         if inhabitant is not None and isinstance(inhabitant, Enemy):
             #Fight with the inhabitant, if there is one
-            print("What will you fight with?")
-            fight_with = input()
-            if fight_with in bag:
-                if inhabitant.fight(fight_with) == True:
-                    #What happens if you win?
+            print("Would you like to do a heavy, medium or light attack?")
+            attack_weight = input()
+            if attack_weight.lower() in ["heavy", "medium", "light"]:
+                while inhabitant.fight(attack_weight) == True:
                     print("Bravo, hero you won the fight!")
                     current_island.set_character(None)
                     if Enemy.enemies_to_defeat == 0:
-                        print("Congratulations, you have survived another adventure!")
+                        print("Congratulations, you are the King of the Pirates!")
                         dead = True
                 else:
-                    #What happens if you lose?
                     print("Scurry home, you lost the fight.")
                     print("That's the end of the game")
                     dead = True
             else:
-                print("You dont have a " + fight_with)
+                print("You cannot attack this way.")
         else:
             print("There is no one here to fight with.")
     elif command == "pat":
@@ -115,9 +109,9 @@ while dead == False:
         else:
             print("There is no one here to pat :(")
     elif command == "take":
-        if Item is not None:
-            print("You put the " + current_island.get_name() + " in your bag")
-            bag.append(current_island.getname())
+        if current_island.item is not None:
+            print("You put the " + current_island.item() + " in your bag")
+            bag.append(current_island.item())
             current_island.set_item(None)
         else:
-            print("There is no item to take in " + current_island)
+            print("There is no item for you to take here")
