@@ -85,16 +85,12 @@ while dead == False:
             #Fight with the inhabitant, if there is one
             print("Would you like to do a heavy, medium or light attack?")
             attack_weight = input()
-            if attack_weight.lower() in ["heavy", "medium", "light"]:
-                while inhabitant.fight(attack_weight) == True:
-                    print("Bravo, hero you won the fight!")
+            while attack_weight.lower() in ["heavy", "medium", "light"]:
+                if inhabitant.fight(attack_weight) == True:
                     current_island.set_character(None)
-                    if Enemy.enemies_to_defeat == 0:
-                        print("Congratulations, you are the King of the Pirates!")
-                        dead = True
                 else:
-                    print("Scurry home, you lost the fight.")
-                    print("That's the end of the game")
+                    print("Thats it...")
+                    print("You can no longer become the King of the Pirates.")
                     dead = True
             else:
                 print("You cannot attack this way.")
