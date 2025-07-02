@@ -43,6 +43,10 @@ class Enemy(Character):
     def set_health(self, health):
         self.health = health
 
+#Get the health of the enemy
+    def get_health(self):
+        return self.health
+
 #Set the type of enemy
     def set_type(self, type):
         self.type = type

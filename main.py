@@ -54,7 +54,8 @@ cocoyasi.link_island(baratie, "north")
 
 harry = Enemy("Harry", "A smelly Wumpus")
 harry.set_conversation("Hangry... Hanggrry")
-harry.set_weakness("vegemite")
+harry.set_health(100)
+harry.set_type("light")
 fuschia.set_character(harry)
 
 #Setting items to different islands
@@ -70,6 +71,7 @@ while dead == False:
     print("\n")
     current_island.get_details()
     inhabitant = current_island.get_character()
+    player_health  = 100
     if inhabitant is not None:
         inhabitant.describe()
     command = input("> ")
@@ -84,16 +86,12 @@ while dead == False:
         if inhabitant is not None and isinstance(inhabitant, Enemy):
             #Fight with the inhabitant, if there is one
             print("Would you like to do a heavy, medium or light attack?")
-            attack_weight = input()
-            while attack_weight.lower() in ["heavy", "medium", "light"]:
-                if inhabitant.fight(attack_weight) == True:
-                    current_island.set_character(None)
+            attack_type = input()
+            if attack_type.lower() in ["heavy", "medium", "light"]:
+                if player_health <= 0:
+                    print("You're dead")
                 else:
-                    print("Thats it...")
-                    print("You can no longer become the King of the Pirates.")
-                    dead = True
-            else:
-                print("You cannot attack this way.")
+                    print("You cannot attack this way.")
         else:
             print("There is no one here to fight with.")
     elif command == "pat":
