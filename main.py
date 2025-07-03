@@ -71,7 +71,6 @@ while dead == False:
     print("\n")
     current_island.get_details()
     inhabitant = current_island.get_character()
-    player_health  = 100
     if inhabitant is not None:
         inhabitant.describe()
     command = input("> ")
@@ -83,15 +82,18 @@ while dead == False:
             inhabitant.talk()
     elif command == "fight":
         #Check whether the character is an enemy using isinstance()
-        if inhabitant is not None and isinstance(inhabitant, Enemy):
+        while inhabitant is not None and isinstance(inhabitant, Enemy):
             #Fight with the inhabitant, if there is one
             print("Would you like to do a heavy, medium or light attack?")
-            attack_type = input()
+            attack_type = input("> ")
             if attack_type.lower() in ["heavy", "medium", "light"]:
-                if player_health <= 0:
-                    print("You're dead")
-                else:
-                    print("You cannot attack this way.")
+                 inhabitant.fight(attack_type) == True
+                 if inhabitant.health <= 0:
+                      Enemy.enemies_to_defeat -= 1
+                      current_island.set_character(None)
+                      print("You have defeated " + inhabitant.name)
+                 if inhabitant.player_health <= 0:
+                      
         else:
             print("There is no one here to fight with.")
     elif command == "pat":
