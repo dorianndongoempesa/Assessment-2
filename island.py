@@ -4,6 +4,7 @@ class Island:
         self.name = island_name
         self.description = None
         self.linked_islands = {}
+        self.linked_locations = {}
         self.item = None
 
 #Here is a method to set the description of the island:
@@ -46,6 +47,11 @@ class Island:
     def link_island(self, island_to_link, direction):
         self.linked_islands[direction] = island_to_link
 
+#Here is a method used to link locations within an island together
+
+    def link_location(self, location_to_link):
+        self.linked_locations = location_to_link
+
 #Here is a method that displays all the islands linked to the current island object:
 
     def get_details(self):
@@ -58,12 +64,22 @@ class Island:
 
 #Here is a method that allows the user to move around the islands:
 
-    def move(self, direction):
+    def travel(self, direction):
         if direction in self.linked_islands:
             return self.linked_islands[direction]
         else:
             print("You can't go that way")
             return self
+        
+#Here is a method that allows the user to move within the locations on an island:
+
+    def move(self, location):
+        if location in self.linked_locations:
+            return self.linked_locations
+        else:
+            print("There is no such thing as " + location)
+            return self
+
 
 #Here is a method to set an item to an Island
     
@@ -74,27 +90,3 @@ class Island:
 
     def get_item(self):
         return self.item
-
-#My 'room' subclass Place
-
-class Location(Island):
-    def __init__(self, island_name):
-        super().__init__(island_name)
-        self.description = None
-        self.character = None
-        self.linked_locations = {}
-
-    def link_island(self, location_to_link):
-        self.linked_locations = location_to_link
-
-    def get_details(self):
-        print("You are in the " + self.name + ".")
-        for locations in self.linked_locations:
-            location = self.linked_locations
-            print("There is a " + location.get_name() + "on this island")
-
-    def move(self, location):
-        if location in self.linked_locations:
-            return self.linked_locations[location]
-        else:
-            print("That is not a valid location")

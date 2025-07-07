@@ -1,6 +1,7 @@
 from island import Island
 from character import Enemy, Character, Friend
 from item import Item
+import time
 
 #Naming the islands and describing them
 
@@ -67,6 +68,7 @@ bag = []
 
 current_island = fuschia
 dead = False
+player_health = 100
 while dead == False:
     print("\n")
     current_island.get_details()
@@ -74,34 +76,69 @@ while dead == False:
     if inhabitant is not None:
         inhabitant.describe()
     command = input("> ")
-    if command in ["north", "south", "east", "west"]:
+    if inhabitant is not None and isinstance(inhabitant, Enemy):
+        if command != "fight":
+            print("You are not able to " + command + ". There is an enemy here")
+        elif command == "fight":
+            while inhabitant.health > 0 and player_health > 0:
+                print("What would you like to do")
+                attack_type = input("> ")
+                if attack_type == "hit":
+                    print("Would you like to do a heavy, medium or light attack?")
+                    hit_type = input("> ")
+                    if hit_type.lower() in ["heavy", "medium", "light"]:
+                        inhabitant.fight(hit_type)
+                        inhabitant.health -= inhabitant.player_damage
+                        player_health -= inhabitant.enemy_damage
+                        if inhabitant.health <= 0:
+                            Enemy.enemies_to_defeat -= 1
+                            current_island.set_character(None)
+                            print("You are now on " + str(player_health) + " health")
+                            print("You have defeated " + inhabitant.name)
+                        if player_health <= 0:
+                            print("You are now on 0 health")
+                            print(inhabitant.name + " is now on " + str(inhabitant.health) + " health")
+                            time.sleep(2)
+                            print("You have been defeated")
+                            time.sleep(1.5)
+                            print("So called...")
+                            time.sleep(1)
+                            print("King of the Pirates")
+                            dead = True
+                        else:
+                            print("You are now on " + str(player_health) + " health")
+                            print(inhabitant.name + " is now on " + str(inhabitant.health) + " health")
+                    else:
+                        print("You cannot attack this way")
+                elif attack_type == "dodge":
+                    if inhabitant.dodge() == True:
+                        inhabitant.player_damage *= inhabitant.multiplier
+                    else:
+                        inhabitant.player_damage
+                    if player_health <= 0:
+                            print("You are now on 0 health")
+                            print(inhabitant.name + " is now on " + str(inhabitant.health) + " health")
+                            time.sleep(2)
+                            print("You have been defeated")
+                            time.sleep(1.5)
+                            print("So called...")
+                            time.sleep(1)
+                            print("King of the Pirates")
+                            dead = True                       
+        else:
+            print("There is no one here for you to fight with.")
+    elif command in ["north", "south", "east", "west"]:
             current_island = current_island.travel(command)
     elif command == "talk":
         #Talk to the inhabitant - check whether there is one!
         if inhabitant is not None:
             inhabitant.talk()
-    elif command == "fight":
-        #Check whether the character is an enemy using isinstance()
-        while inhabitant is not None and isinstance(inhabitant, Enemy):
-            #Fight with the inhabitant, if there is one
-            print("Would you like to do a heavy, medium or light attack?")
-            attack_type = input("> ")
-            if attack_type.lower() in ["heavy", "medium", "light"]:
-                 inhabitant.fight(attack_type) == True
-                 if inhabitant.health <= 0:
-                      Enemy.enemies_to_defeat -= 1
-                      current_island.set_character(None)
-                      print("You have defeated " + inhabitant.name)
-                 if inhabitant.player_health <= 0:
-                      
-        else:
-            print("There is no one here to fight with.")
     elif command == "pat":
         if inhabitant is not None:
             if isinstance(inhabitant, Enemy):
                 print("I wouldn't do that if I were you...")
             else:
-                    inhabitant.pat()
+                inhabitant.pat()
         else:
             print("There is no one here to pat :(")
     elif command == "take":

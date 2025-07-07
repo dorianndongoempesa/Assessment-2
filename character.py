@@ -37,7 +37,7 @@ class Enemy(Character):
         super().__init__(char_name, char_description)
         Enemy.enemies_to_defeat += 1
         self.player_damage = 0
-        self.player_health = 100
+        self.enemy_damage = 0
 
 #Set the health of the enemy
     def set_health(self, health):
@@ -54,90 +54,84 @@ class Enemy(Character):
 #Fight with this character
 
     def fight(self, attack):
-        while self.health > 0 and self.player_health > 0:
             if attack == "light" and self.type == "light":
                 self.player_damage = r.randint(3, 15)
-                print("You dealt " + self.player_damage + " to " + self.name)
+                print("You dealt " + str(self.player_damage) + " to " + self.name)
                 self.health -= self.player_damage
-                enemy_damage = r.randint(1, 5)
-                print(self.name + " dealt " + enemy_damage + " to you")
+                self.enemy_damage = r.randint(1, 5)
+                print(self.name + " dealt " + str(self.enemy_damage) + " to you")
             elif attack == "medium" and self.type == "light":
-                random = r.random(0.0, 1.0)
+                random = r.random()
                 if random > 0.25:
                     self.player_damage = r.randint(16, 30)
-                    print("You dealt " + self.player_damage + " to " + self.name)
+                    print("You dealt " + str(self.player_damage) + " to " + self.name)
                     self.health -= self.player_damage
                 else:
                     print("You missed your medium attack!")
-                enemy_damage = r.randint(1, 5)
-                print(self.name + " dealt " + enemy_damage + " to you")
+                self.enemy_damage = r.randint(1, 5)
+                print(self.name + " dealt " + str(self.enemy_damage) + " to you")
             elif attack == "heavy" and self.type == "light":
-                random = r.random(0.0, 1.0)
+                random = r.random()
                 if random > 0.5:
                     self.player_damage = r.randint(31, 50)
-                    print("You dealt " + self.player_damage + " to " + self.name)
+                    print("You dealt " + str(self.player_damage) + " to " + self.name)
                     self.health -= self.player_damage
                 else:
                     print("You missed your heavy attack!")
-                enemy_damage = r.randint(1, 5)
-                print(self.name + " dealt " + enemy_damage + " to you")
+                self.enemy_damage = r.randint(1, 5)
+                print(self.name + " dealt " + str(self.enemy_damage) + " to you")
             if attack == "light" and self.type == "medium":
                 self.player_damage = r.randint(2, 10)
-                print("You dealt " + self.player_damage + " to " + self.name)
+                print("You dealt " + str(self.player_damage) + " to " + self.name)
                 self.health -= self.player_damage
-                enemy_damage = r.randint(5, 10)
-                print(self.name + " dealt " + enemy_damage + " to you")
+                self.enemy_damage = r.randint(5, 10)
+                print(self.name + " dealt " + str(self.enemy_damage) + " to you")
             elif attack == "medium" and self.type == "medium":
-                random = r.random(0.0, 1.0)
+                random = r.random()
                 if random > (1/3):
                     self.player_damage = r.randint(11, 20)
-                    print("You dealt " + self.player_damage + " to " + self.name)
+                    print("You dealt " + str(self.player_damage) + " to " + self.name)
                     self.health -= self.player_damage
                 else:
                     print("You missed your medium attack!")
-                enemy_damage = r.randint(5, 10)
-                print(self.name + " dealt " + enemy_damage + " to you")
+                self.enemy_damage = r.randint(5, 10)
+                print(self.name + " dealt " + str(self.enemy_damage) + " to you")
             elif attack == "heavy" and self.type == "medium":
-                random = r.random(0.0, 1.0)
+                random = r.random()
                 if random > (2/3):
                     self.player_damage = r.randint(21, 30)
-                    print("You dealt " + self.player_damage + " to " + self.name)
+                    print("You dealt " + str(self.player_damage) + " to " + self.name)
                     self.health -= self.player_damage
                 else:
                     print("You missed your heavy attack!")
-                enemy_damage = r.randint(5, 10)
-                print(self.name + " dealt " + enemy_damage + " to you")
+                self.enemy_damage = r.randint(5, 10)
+                print(self.name + " dealt " + str(self.enemy_damage) + " to you")
             elif attack == "light" and self.type == "heavy":
                 self.player_damage = r.randint(1, 7)
-                print("You dealt " + self.player_damage + " to " + self.name)
+                print("You dealt " + str(self.player_damage) + " to " + self.name)
                 self.health -= self.player_damage
-                enemy_damage = r.randint(10, 15)
-                print(self.name + " dealt " + enemy_damage + " to you")
-            elif attack == "medium" and self.type == "medium":
-                random = r.random(0.0, 1.0)
+                self.enemy_damage = r.randint(10, 15)
+                print(self.name + " dealt " + str(self.enemy_damage) + " to you")
+            elif attack == "medium" and self.type == "heavy":
+                random = r.random()
                 if random > (0.4):
                     self.player_damage = r.randint(8, 15)
-                    print("You dealt " + self.player_damage + " to " + self.name)
+                    print("You dealt " + str(self.player_damage) + " to " + self.name)
                     self.health -= self.player_damage
                 else:
                     print("You missed your medium attack!")
-                enemy_damage = r.randint(10, 15)
-                print(self.name + " dealt " + enemy_damage + " to you")
+                self.enemy_damage = r.randint(10, 15)
+                print(self.name + " dealt " + str(self.enemy_damage) + " to you")
             elif attack == "heavy" and self.type == "heavy":
-                random = r.random(0.0, 1.0)
+                random = r.random()
                 if random > (0.6):
                     self.player_damage = r.randint(16, 22)
-                    print("You dealt " + self.player_damage + " to " + self.name)
+                    print("You dealt " + str(self.player_damage) + " to " + self.name)
                     self.health -= self.player_damage
                 else:
                     print("You missed your heavy attack!")
-                enemy_damage = r.randint(10, 15)
-                print(self.name + " dealt " + enemy_damage + "to you")
-        if self.health <= 0 and self.player_health > 0:
-            Enemy.enemies_to_defeat -= 1
-            return True, self.player_health
-        elif self.health > 0 and self.player_health <= 0:
-            return False, self.player_health
+                self.enemy_damage = r.randint(10, 15)
+                print(self.name + " dealt " + str(self.enemy_damage) + " to you")
 
 #Steal from this Character
 
@@ -150,4 +144,4 @@ class Friend(Character):
         self.feeling = None
 
     def pat(self):
-        print(self.name + " pats you back!")
+        print(self.name + " pats you back!")       
