@@ -145,13 +145,11 @@ class Enemy(Character):
             if random > (0.1):
                 print("You successfully dodged " + self.name + "'s attack")
                 print("Your next attack will be multiplied by 1.5x !")
-                self.multiplier = 1.5
                 return True
             else:
                 print("Your dodge was unsuccessful")
                 self.enemy_damage = r.randint(1, 5)
                 print(self.name + " dealt " + str(self.enemy_damage) + " to you")
-                self.multiplier = 1
 
         #WHEN DODGING A MEDIUM ENEMY'S ATTACK
 
@@ -160,13 +158,11 @@ class Enemy(Character):
             if random > (0.25):
                 print("You successfully dodged " + self.name + "'s attack")
                 print("Your next attack will be multiplied by 1.3x !")
-                self.multiplier = 1.3
                 return True
             else:
                 print("Your dodge was unsuccessful")
                 self.enemy_damage = r.randint(5, 10)
                 print(self.name + " dealt " + str(self.enemy_damage) + " to you")
-                self.multiplier = 1
 
         #WHEN DODGING A HEAVY ENEMY'S ATTACK
 
@@ -175,18 +171,12 @@ class Enemy(Character):
             if random > (1/3):
                 print("You successfully dodged " + self.name + "'s attack")
                 print("Your next attack will be multiplied by 1.15x !")
-                self.multiplier = 1.15
                 return True
             else:
                 print("Your dodge was unsuccessful")
                 self.enemy_damage = r.randint(10, 15)
                 print(self.name + " dealt " + str(self.enemy_damage) + " to you")
-                self.multiplier = 1
-
-class Crewmate(Character):
-    def __init__(self, char_name, char_description):
-        super().__init__(char_name, char_description)
 
 class Friend(Character):
     def __init__(self, char_name, char_description):
-        super().__init__(char_name, char_description)   
+        super().__init__(char_name, char_description)

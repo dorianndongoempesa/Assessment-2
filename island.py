@@ -4,9 +4,10 @@ class Island:
         self.name = island_name
         self.description = None
         self.linked_islands = {}
-        self.linked_locations = {}
-        self.character = None
+        self.enemy = None
+        self.friend = None
         self.item = None
+        self.requirements = []
 
 #Here is a method to set the description of the island:
 
@@ -33,15 +34,25 @@ class Island:
     def get_name(self):
         return self.name
 
-#Here is a method to set a character into an Island
+#Here is a method to set an enemy onto an Island
 
-    def set_character(self, new_character):
-        self.character = new_character
+    def set_enemy(self, new_enemy):
+        self.enemy = new_enemy
 
-#Here is a method to get a character into an Island
+#Here is a method to get an enemy onto an Island
 
-    def get_character(self):
-        return self.character
+    def get_enemy(self):
+        return self.enemy
+    
+#Here is a method to set an enemy onto an Island
+
+    def set_friend(self, new_friend):
+        self.friend = new_friend
+
+#Here is a method to get an enemy onto an Island
+
+    def get_friend(self):
+        return self.friend
 
 #Here is a method used to link the islands together:
 
@@ -71,16 +82,6 @@ class Island:
         else:
             print("You can't go that way")
             return self
-        
-#Here is a method that allows the user to move within the locations on an island:
-
-    def move(self, location):
-        if location in self.linked_locations:
-            return self.linked_locations
-        else:
-            print("There is no such thing as " + location)
-            return self
-
 
 #Here is a method to set an item to an Island
     
