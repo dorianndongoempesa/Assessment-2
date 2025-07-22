@@ -53,11 +53,17 @@ cocoyasi.link_island(baratie, "north")
 
 #Setting characters to different islands
 
-harry = Enemy("Harry", "A smelly Wumpus")
-harry.set_conversation("Hangry... Hanggrry")
-harry.set_health(100)
-harry.set_type("light")
-fuschia.set_character(harry)
+forest_bandit = Enemy("Bandit", "A smelly Wumpus")
+forest_bandit.set_health(50)
+forest_bandit.set_type("light")
+gecko.set_character(forest_bandit)
+
+usopp = 
+syrup.set_character(usopp)
+
+kaya
+
+kuro = Enemy("Kuro", "Pretending to")
 
 #Setting items to different islands
 

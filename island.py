@@ -5,6 +5,7 @@ class Island:
         self.description = None
         self.linked_islands = {}
         self.linked_locations = {}
+        self.character = None
         self.item = None
 
 #Here is a method to set the description of the island:
