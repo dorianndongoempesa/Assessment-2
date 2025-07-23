@@ -126,8 +126,10 @@ bag = []
 #Game introduction
 print("You are a young pirate, setting sail from the quiet village of Fuschia Village with a dream that reaches as far as the Grand Line.")
 time.sleep(3.0)
-print("Armed with nothing but determination, you begin your journey through the unpredictable seas.")
+print("Armed with nothing but determination, you begin your journey through the unpredictable seas telling everybody you will be...")
 time.sleep(2.0)
+print("The King of the Pirates!")
+time.sleep(1)
 print("Your adventure begins now.")
 time.sleep(1.5)
 print("Type help at any time to view commands.")
@@ -154,20 +156,25 @@ while dead == False:
     print("Health: " + str(player_health) + "/100")
     command = input("> ")
     if command.lower() == "help":
-        print("""           eat = heals your character. ensure a restaurant has opened up or your cook has made you some food!
-              'north', 'south', 'east', 'west' = used to travel across islands.
-              recruit = used to recruit friends into your crew
-              inspect = look around the island you are currently on to see if there is anything you may pick up
-              fight = used to engage in combat with enemies
-              WHILE IN COMBAT
-              hit = to hit an enemy using a light, medium or heavy attack
-              dodge = to dodge an enemy attack and as a result, receiving a damage multiplier""")
-    if command.lower() == "eat" and random > 0.5 and "Sanji" not in crew:
+        print("""eat = heals your character. ensure a restaurant has opened up or your cook has made you some food!
+recruit = used to recruit friends into your crew
+inspect = look around the island you are currently on to see if there is anything you may pick up
+              
+fight = used to engage in combat with enemies
+WHILE IN COMBAT
+hit = to hit an enemy using a light, medium or heavy attack
+dodge = to dodge an enemy attack and as a result, receiving a damage multiplier
+              
+travel = used to move across islands
+WHILE TRAVELLING
+'north', 'south', 'east', 'west' = to travel to islands located in the different directions""")
+        input("Press enter to continue ")
+    elif command.lower() == "eat" and random > 0.5 and "Sanji" not in crew:
         player_health += heal
         print("You healed 30 HP")
         if player_health > 100:
             player_health = 100
-    if command.lower() == "eat" and random > 0.25 and "Sanji" in crew:
+    elif command.lower() == "eat" and random > 0.25 and "Sanji" in crew:
         player_health += heal
         print("You healed 50 HP")
         if player_health > 100:
@@ -186,6 +193,8 @@ while dead == False:
                         inhabitant.fight(hit_type)
                         inhabitant.health -= int(inhabitant.multiplier * inhabitant.player_damage)
                         player_health -= inhabitant.enemy_damage
+                        print("You dealt " + str(inhabitant.player_damage) + " to " + inhabitant.name)
+                        print(inhabitant.name + " dealt " + str(inhabitant.enemy_damage) + " to you")
                         if inhabitant.health <= 0:
                             Enemy.enemies_to_defeat -= 1
                             current_island.set_enemy(None)
@@ -220,7 +229,7 @@ while dead == False:
             direction = input("> ")
             if direction.lower() in ["north", "south", "east", "west"] and current_island.travel(direction).requirements == []:
                 current_island = current_island.travel(direction)
-            if direction.lower() in ["north", "south", "east", "west"] and crew == current_island.travel(direction).requirements:
+            elif direction.lower() in ["north", "south", "east", "west"] and crew == current_island.travel(direction).requirements:
                 current_island = current_island.travel(direction)
             else:
                 print("You cannot move to this island without recruiting other members")
@@ -235,14 +244,15 @@ while dead == False:
             print("There is no one here to recruit")
     elif command.lower() == "inspect":
         if current_island.item is not None:
-            print("You found a " + item.name + "laying around")
+            item.describe()
             decision = input("Would you like to pick it up? (yes/no)")
             if decision.lower() == "yes":
                 print("You put the " + current_island.item + " in your bag")
                 bag.append(current_island.item)
                 current_island.set_item(None)
                 if "Log Pose" in bag:
-                    print("With your crew assembled, your ship sails beyound Twin Cape. You grip your Log Pose. Your journey has only begun.")
+                    print("With your crew assembled, your ship sails beyond Twin Cape. You grip your Log Pose. Your journey has only begun.")
+                    time.sleep(1.5)
                     dead = True
             elif decision.lower() == "no":
                 print("You left the " + item.name + "alone")
@@ -250,3 +260,5 @@ while dead == False:
                 print("You are unable to complete this action")
         else:
             print("There is no item for you to take here")
+    else:
+        print("You are unable to perform this action")
