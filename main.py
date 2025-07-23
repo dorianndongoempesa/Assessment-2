@@ -133,6 +133,7 @@ time.sleep(1)
 print("Your adventure begins now.")
 time.sleep(1.5)
 print("Type help at any time to view commands.")
+time.sleep(1.5)
 
 while dead == False:
     random = r.random()
@@ -156,27 +157,28 @@ while dead == False:
     print("Health: " + str(player_health) + "/100")
     command = input("> ")
     if command.lower() == "help":
-        print("""eat = heals your character. ensure a restaurant has opened up or your cook has made you some food!
-recruit = used to recruit friends into your crew
-inspect = look around the island you are currently on to see if there is anything you may pick up
+        print("""eat = Heals your character. ensure a restaurant has opened up or your cook has made you some food!
+recruit = Used to recruit friends into your crew
+inspect = Look around the island you are currently on to see if there is anything you may pick up
               
-fight = used to engage in combat with enemies
+fight = Used to engage in combat with enemies
 WHILE IN COMBAT
-hit = to hit an enemy using a light, medium or heavy attack
-dodge = to dodge an enemy attack and as a result, receiving a damage multiplier
+hit = To hit an enemy using a light, medium or heavy attack
+dodge = To dodge an enemy attack and as a result, receiving a damage multiplier
+run = Only to be used in special cases. It could save your life once or twice
               
-travel = used to move across islands
+travel = Used to move across islands
 WHILE TRAVELLING
-'north', 'south', 'east', 'west' = to travel to islands located in the different directions""")
+'north', 'south', 'east', 'west' = To travel to islands located in the different directions""")
         input("Press enter to continue ")
     elif command.lower() == "eat" and random > 0.5 and "Sanji" not in crew:
         player_health += heal
-        print("You healed 30 HP")
+        print("You healed 30 health")
         if player_health > 100:
             player_health = 100
     elif command.lower() == "eat" and random > 0.25 and "Sanji" in crew:
         player_health += heal
-        print("You healed 50 HP")
+        print("You healed 50 health")
         if player_health > 100:
             player_health = 100
     elif inhabitant is not None and isinstance(inhabitant, Enemy):
@@ -193,26 +195,7 @@ WHILE TRAVELLING
                         inhabitant.fight(hit_type)
                         inhabitant.health -= int(inhabitant.multiplier * inhabitant.player_damage)
                         player_health -= inhabitant.enemy_damage
-                        print("You dealt " + str(inhabitant.player_damage) + " to " + inhabitant.name)
-                        print(inhabitant.name + " dealt " + str(inhabitant.enemy_damage) + " to you")
-                        if inhabitant.health <= 0:
-                            Enemy.enemies_to_defeat -= 1
-                            current_island.set_enemy(None)
-                            print("You have defeated " + inhabitant.name)
-                        else:
-                            print("You are now on " + str(player_health) + " health")
-                            print(inhabitant.name + " is now on " + str(inhabitant.health) + " health")
-                    else:
-                        print("You cannot attack this way")
-                elif attack_type.lower() == "dodge":
-                    if inhabitant.dodge() == True:
-                        inhabitant.multiplier = 1.5
-                    else:
-                        inhabitant.multiplier = 1
-                else:
-                    print("You cannot perform this action in a fight")
-            else:
-                if player_health <= 0:
+                        if player_health <= 0:
                             print("You are now on 0 health")
                             print(inhabitant.name + " is now on " + str(inhabitant.health) + " health")
                             time.sleep(2)
@@ -221,18 +204,55 @@ WHILE TRAVELLING
                             print("So called...")
                             time.sleep(1)
                             print("King of the Pirates")
-                            dead = True                       
+                            time.sleep(1.5)
+                            dead = True
+                        elif inhabitant.health <= 0:
+                            Enemy.enemies_to_defeat -= 1
+                            current_island.set_enemy(None)
+                            print("You dealt " + str(inhabitant.player_damage) + " to " + inhabitant.name)
+                            print(inhabitant.name + " dealt " + str(inhabitant.enemy_damage) + " to you")
+                            print("You are now on " + str(player_health) + " health")
+                            print(inhabitant.name + " is now on 0 health")
+                            print("You have defeated " + inhabitant.name)
+                        else:
+                            print("You dealt " + str(int(inhabitant.multiplier * inhabitant.player_damage)) + " to " + inhabitant.name)
+                            print(inhabitant.name + " dealt " + str(inhabitant.enemy_damage) + " to you")
+                            print("You are now on " + str(player_health) + " health")
+                            print(inhabitant.name + " is now on " + str(inhabitant.health) + " health")
+                        inhabitant.dodge() = False
+                    else:
+                        print("You cannot attack this way")
+                elif attack_type.lower() == "dodge":
+                    if inhabitant.dodge() == True:
+                        inhabitant.multiplier = 1.5
+                    else:
+                        inhabitant.multiplier = 1
+                        player_health -= inhabitant.enemy_damage
+                elif attack_type.lower() == "run":
+                    if inhabitant.name == "Captain Smoker":
+                        time.sleep(2)
+                        print("Smoke fills the alleyways as Smoker closes in. You escape to sea, battered and alone.")
+                        time.sleep(2)
+                        print("The World Government now has its eye on you - a wanted pirate with no crew to back him up.")
+                        time.sleep(1.5)
+                        print("The Grand Line will have to wait...")
+                        time.sleep(1)
+                        print("... for now")
+                        time.sleep(1)
+                        dead = True
+                    else:
+                        print("Don't be a coward, take him on!")
+                else:
+                    print("You cannot perform this action in a fight")           
         else:
             print("There is no one here for you to fight with.")
     elif command.lower() == "travel": 
             print("In what direction would you like to travel?")
             direction = input("> ")
-            if direction.lower() in ["north", "south", "east", "west"] and current_island.travel(direction).requirements == []:
-                current_island = current_island.travel(direction)
-            elif direction.lower() in ["north", "south", "east", "west"] and crew == current_island.travel(direction).requirements:
+            if direction.lower() in ["north", "south", "east", "west"] and current_island.travel(direction).requirements == [] or crew == current_island.travel(direction).requirements:
                 current_island = current_island.travel(direction)
             else:
-                print("You cannot move to this island without recruiting other members")
+                print("You cannot move to this island without recruiting other members to your crew.")
     elif command.lower() == "recruit":
         if inhabitant is not None:
             print("I wouldn't do that if I were you...")

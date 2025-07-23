@@ -68,16 +68,13 @@ class Enemy(Character):
                 else:
                     print("You missed your medium attack!")
                 self.enemy_damage = r.randint(1, 5)
-                print(self.name + " dealt " + str(self.enemy_damage) + " to you")
             elif attack == "heavy" and self.type == "light":
                 random = r.random()
                 if random > 0.5:
                     self.player_damage = r.randint(31, 50)
-                    print("You dealt " + str(self.player_damage) + " to " + self.name)
                 else:
                     print("You missed your heavy attack!")
                 self.enemy_damage = r.randint(1, 5)
-                print(self.name + " dealt " + str(self.enemy_damage) + " to you")
 
             #WHEN ATTACKING A MEDIUM ENEMY
 
@@ -88,7 +85,6 @@ class Enemy(Character):
                 random = r.random()
                 if random > (1/3):
                     self.player_damage = r.randint(11, 20)
-                    print("You dealt " + str(self.player_damage) + " to " + self.name)
                 else:
                     print("You missed your medium attack!")
                 self.enemy_damage = r.randint(5, 10)
@@ -96,7 +92,6 @@ class Enemy(Character):
                 random = r.random()
                 if random > (2/3):
                     self.player_damage = r.randint(21, 30)
-                    print("You dealt " + str(self.player_damage) + " to " + self.name)
                 else:
                     print("You missed your heavy attack!")
                 self.enemy_damage = r.randint(5, 10)
@@ -110,7 +105,6 @@ class Enemy(Character):
                 random = r.random()
                 if random > (0.4):
                     self.player_damage = r.randint(8, 15)
-                    print("You dealt " + str(self.player_damage) + " to " + self.name)
                 else:
                     print("You missed your medium attack!")
                 self.enemy_damage = r.randint(10, 15)
@@ -118,7 +112,6 @@ class Enemy(Character):
                 random = r.random()
                 if random > (0.6):
                     self.player_damage = r.randint(16, 22)
-                    print("You dealt " + str(self.player_damage) + " to " + self.name)
                 else:
                     print("You missed your heavy attack!")
                 self.enemy_damage = r.randint(10, 15)
@@ -167,7 +160,6 @@ class Enemy(Character):
                 print("Your dodge was unsuccessful")
                 self.enemy_damage = r.randint(10, 15)
                 print(self.name + " dealt " + str(self.enemy_damage) + " to you")
-                return False
 
 class Friend(Character):
     def __init__(self, char_name, char_description):
