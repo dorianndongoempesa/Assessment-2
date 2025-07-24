@@ -132,7 +132,6 @@ class Enemy(Character):
                 print("Your dodge was unsuccessful")
                 self.enemy_damage = r.randint(1, 5)
                 print(self.name + " dealt " + str(self.enemy_damage) + " to you")
-                return False
 
         #WHEN DODGING A MEDIUM ENEMY'S ATTACK
 
@@ -140,13 +139,12 @@ class Enemy(Character):
             random = r.random()
             if random > (0.25):
                 print("You successfully dodged " + self.name + "'s attack")
-                print("Your next attack will be multiplied by 1.3x !")
+                print("Your next attack will be multiplied by 1.5x !")
                 return True
             else:
                 print("Your dodge was unsuccessful")
                 self.enemy_damage = r.randint(5, 10)
                 print(self.name + " dealt " + str(self.enemy_damage) + " to you")
-                return False
 
         #WHEN DODGING A HEAVY ENEMY'S ATTACK
 
@@ -154,7 +152,7 @@ class Enemy(Character):
             random = r.random()
             if random > (1/3):
                 print("You successfully dodged " + self.name + "'s attack")
-                print("Your next attack will be multiplied by 1.15x !")
+                print("Your next attack will be multiplied by 1.5x !")
                 return True
             else:
                 print("Your dodge was unsuccessful")

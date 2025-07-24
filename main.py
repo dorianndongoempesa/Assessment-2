@@ -116,6 +116,7 @@ cocoyasi.requirements = ["Zoro", "Usopp", "Sanji"]
 loguetown.requirements = ["Zoro", "Usopp", "Sanji", "Nami"]
 twincape.requirements = ["Zoro", "Usopp", "Sanji", "Nami"]
 
+#Setting the game out
 
 current_island = fuschia
 dead = False
@@ -124,7 +125,8 @@ crew = []
 bag = []
 
 #Game introduction
-print("You are a young pirate, setting sail from the quiet village of Fuschia Village with a dream that reaches as far as the Grand Line.")
+
+print("You are a young pirate, setting sail from the quiet village of Fuschia Village in the East Blue with a dream that reaches as far as the Grand Line.")
 time.sleep(3.0)
 print("Armed with nothing but determination, you begin your journey through the unpredictable seas telling everybody you will be...")
 time.sleep(2.0)
@@ -134,6 +136,8 @@ print("Your adventure begins now.")
 time.sleep(1.5)
 print("Type help at any time to view commands.")
 time.sleep(1.5)
+
+# While the user is alive, the game will not end
 
 while dead == False:
     random = r.random()
@@ -146,6 +150,9 @@ while dead == False:
         inhabitant.describe()
     if inhabitant == None and crewmate is not None:
         crewmate.describe()
+
+# Chance of spawn for eating
+
     if "Sanji" not in crew:
         if random > 0.75:
             print("A restaurant nearby opened up. Type 'eat' in order to heal!")
@@ -156,6 +163,9 @@ while dead == False:
             heal = 50
     print("Health: " + str(player_health) + "/100")
     command = input("> ")
+
+# Commands that may be used in the game
+
     if command.lower() == "help":
         print("""eat = Heals your character. ensure a restaurant has opened up or your cook has made you some food!
 recruit = Used to recruit friends into your crew
@@ -165,12 +175,15 @@ fight = Used to engage in combat with enemies
 WHILE IN COMBAT
 hit = To hit an enemy using a light, medium or heavy attack
 dodge = To dodge an enemy attack and as a result, receiving a damage multiplier
-run = Only to be used in special cases. It could save your life once or twice
+run = Only to be used in special cases. It could save your life once
               
 travel = Used to move across islands
 WHILE TRAVELLING
 'north', 'south', 'east', 'west' = To travel to islands located in the different directions""")
         input("Press enter to continue ")
+
+# Eating in the game to replenish health
+
     elif command.lower() == "eat" and random > 0.5 and "Sanji" not in crew:
         player_health += heal
         print("You healed 30 health")
@@ -181,6 +194,9 @@ WHILE TRAVELLING
         print("You healed 50 health")
         if player_health > 100:
             player_health = 100
+
+# If there is an enemy, the only thing you can do is ask for the list of commands or eat. You are not able to do anything else
+
     elif inhabitant is not None and isinstance(inhabitant, Enemy):
         if command.lower() != "fight":
             print("You are not able to " + command + ". There is an enemy here")
@@ -188,6 +204,9 @@ WHILE TRAVELLING
             while inhabitant.health > 0 and player_health > 0:
                 print("What would you like to do")
                 attack_type = input("> ")
+
+                # Attacking an enemy 'hit'
+
                 if attack_type.lower() == "hit":
                     print("Would you like to do a heavy, medium or light attack?")
                     hit_type = input("> ")
@@ -195,6 +214,9 @@ WHILE TRAVELLING
                         inhabitant.fight(hit_type)
                         inhabitant.health -= int(inhabitant.multiplier * inhabitant.player_damage)
                         player_health -= inhabitant.enemy_damage
+
+                        # If you are defeated?
+
                         if player_health <= 0:
                             print("You are now on 0 health")
                             print(inhabitant.name + " is now on " + str(inhabitant.health) + " health")
@@ -206,10 +228,13 @@ WHILE TRAVELLING
                             print("King of the Pirates")
                             time.sleep(1.5)
                             dead = True
+
+                        # If you defeat your enemy?
+
                         elif inhabitant.health <= 0:
                             Enemy.enemies_to_defeat -= 1
                             current_island.set_enemy(None)
-                            print("You dealt " + str(inhabitant.player_damage) + " to " + inhabitant.name)
+                            print("You dealt " + str(int(inhabitant.player_damage * inhabitant.player_damage)) + " to " + inhabitant.name)
                             print(inhabitant.name + " dealt " + str(inhabitant.enemy_damage) + " to you")
                             print("You are now on " + str(player_health) + " health")
                             print(inhabitant.name + " is now on 0 health")
@@ -219,25 +244,33 @@ WHILE TRAVELLING
                             print(inhabitant.name + " dealt " + str(inhabitant.enemy_damage) + " to you")
                             print("You are now on " + str(player_health) + " health")
                             print(inhabitant.name + " is now on " + str(inhabitant.health) + " health")
-                        inhabitant.dodge() = False
                     else:
                         print("You cannot attack this way")
+
+                # Dodging an enemy attack. Dodging succesfully rewards the user with a 1.5x damage increase on their next hit
+                
                 elif attack_type.lower() == "dodge":
                     if inhabitant.dodge() == True:
                         inhabitant.multiplier = 1.5
                     else:
                         inhabitant.multiplier = 1
                         player_health -= inhabitant.enemy_damage
+
+                # Run from a fight.
+
                 elif attack_type.lower() == "run":
+
+                    # Running only works on Captain Smoker. Gives alternative ending.
+
                     if inhabitant.name == "Captain Smoker":
                         time.sleep(2)
                         print("Smoke fills the alleyways as Smoker closes in. You escape to sea, battered and alone.")
                         time.sleep(2)
                         print("The World Government now has its eye on you - a wanted pirate with no crew to back him up.")
                         time.sleep(1.5)
-                        print("The Grand Line will have to wait...")
+                        print("The Grand Line will have to wait for now...")
                         time.sleep(1)
-                        print("... for now")
+                        print("... King of the Pirates!")
                         time.sleep(1)
                         dead = True
                     else:
@@ -246,13 +279,22 @@ WHILE TRAVELLING
                     print("You cannot perform this action in a fight")           
         else:
             print("There is no one here for you to fight with.")
+
+# Travelling around the map in the game
+
     elif command.lower() == "travel": 
             print("In what direction would you like to travel?")
             direction = input("> ")
+
+            # User must enter an direction that has an island attached to it, ensuring that they have the required crew members to travel to that island
+
             if direction.lower() in ["north", "south", "east", "west"] and current_island.travel(direction).requirements == [] or crew == current_island.travel(direction).requirements:
                 current_island = current_island.travel(direction)
             else:
                 print("You cannot move to this island without recruiting other members to your crew.")
+
+# Recruiting other members for your crew in the game
+
     elif command.lower() == "recruit":
         if inhabitant is not None:
             print("I wouldn't do that if I were you...")
@@ -262,18 +304,34 @@ WHILE TRAVELLING
             crew.append(crewmate.name)
         else:
             print("There is no one here to recruit")
+
+# Inspecting the island in the game to look for any items
+
     elif command.lower() == "inspect":
         if current_island.item is not None:
             item.describe()
-            decision = input("Would you like to pick it up? (yes/no)")
+            decision = input("Would you like to pick it up? (yes/no) ")
+
+            # If you accept to pick up the item
+
             if decision.lower() == "yes":
-                print("You put the " + current_island.item + " in your bag")
-                bag.append(current_island.item)
+                print("You put the [" + item.name + "] in your bag")
+                bag.append(item.name)
                 current_island.set_item(None)
+
+                # Picking up the Log Pose finishes the game. This is the true ending.
+
                 if "Log Pose" in bag:
                     print("With your crew assembled, your ship sails beyond Twin Cape. You grip your Log Pose. Your journey has only begun.")
+                    time.sleep(2)
+                    print("The Grand Line awaits the future...")
                     time.sleep(1.5)
+                    print("... King of the Pirates!")
+                    time.sleep(1)
                     dead = True
+
+            # If you deny picking up an item
+
             elif decision.lower() == "no":
                 print("You left the " + item.name + "alone")
             else:
